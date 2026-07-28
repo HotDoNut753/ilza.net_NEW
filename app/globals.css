@@ -2390,6 +2390,12 @@ address {
   line-height: 1.5;
 }
 
+.footerCredit {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.52);
+}
+
 .mobileCallButton {
   display: none;
 }

@@ -71,7 +71,10 @@ export function SiteFooter() {
         </nav>
       </div>
       <div className="footerBottom">
-        <p>© 2026 Iłża.Net · GTR Systemy Karol Góralski</p>
+        <p>
+          © 2026 Iłża.Net · GTR Systemy Karol Góralski
+          <span className="footerCredit">Projekt i realizacja: Kacper</span>
+        </p>
         <p>
           NIP 796-235-20-42 · REGON 673003980 · Rejestr operatorów
           telekomunikacyjnych nr 6018
