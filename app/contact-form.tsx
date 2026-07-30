@@ -17,14 +17,16 @@ export function ContactForm({ compact = false }: { compact?: boolean }) {
     setMessage("");
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/send.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
       });
       const result = (await response.json()) as {
         ok?: boolean;
-        fallback?: "mailto";
         message?: string;
       };
 
@@ -35,31 +37,14 @@ export function ContactForm({ compact = false }: { compact?: boolean }) {
         return;
       }
 
-      if (result.fallback === "mailto") {
-        const subject = encodeURIComponent(
-          `Zapytanie ze strony Iłża.Net — ${String(data.name || "")}`,
-        );
-        const body = encodeURIComponent(
-          [
-            `Imię i nazwisko: ${String(data.name || "")}`,
-            `Telefon: ${String(data.phone || "")}`,
-            `E-mail: ${String(data.email || "")}`,
-            `Adres instalacji: ${String(data.address || "")}`,
-            "",
-            String(data.message || ""),
-          ].join("\n"),
-        );
-        window.location.href = `mailto:biuro@ilza.net?subject=${subject}&body=${body}`;
-        setStatus("idle");
-        setMessage("Otwieram program pocztowy z gotową wiadomością.");
-        return;
-      }
-
       throw new Error(result.message || "Nie udało się wysłać formularza.");
-    } catch {
+    } catch (error) {
       setStatus("error");
       setMessage(
-        "Nie udało się wysłać wiadomości. Zadzwoń pod numer 882 564 615.",
+        error instanceof Error &&
+          error.message.startsWith("Nie udało się wysłać")
+          ? error.message
+          : "Nie udało się wysłać wiadomości. Zadzwoń pod numer 882 564 615.",
       );
     }
   }

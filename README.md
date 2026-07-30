@@ -1,7 +1,7 @@
 # Iłża.Net — strona 2026
 
 Wielostronicowa witryna firmowa zbudowana w Next.js. Projekt działa lokalnie i
-jest przygotowany do późniejszego wdrożenia na Vercel.
+jest przygotowany do publikacji jako statyczna strona na hostingu home.pl.
 
 ## Uruchomienie
 
@@ -21,17 +21,23 @@ npm run build
 
 ## Formularz kontaktowy
 
-Formularz korzysta z endpointu `/api/contact`. W środowisku produkcyjnym wysyła
-wiadomości przez Resend. Skopiuj `.env.example` do `.env.local` i ustaw:
+Formularz wysyła dane do pliku `public/send.php`. Po wykonaniu produkcyjnego
+builda skrypt znajduje się w `out/send.php` i na hostingu home.pl wysyła
+wiadomości bezpośrednio na `biuro@ilza.net`.
 
-```text
-RESEND_API_KEY=
-CONTACT_FROM_EMAIL=Iłża.Net <formularz@ilza.net>
-CONTACT_TO_EMAIL=biuro@ilza.net
+Adres `biuro@ilza.net` musi istnieć na tym samym hostingu home.pl, a poczta
+domeny `ilza.net` musi być obsługiwana przez ten serwer. Jest to wymagane przez
+home.pl dla adresu przekazywanego do funkcji `mail()` parametrem `-f`.
+
+## Publikacja na home.pl
+
+```bash
+npm ci
+npm run build
 ```
 
-Adres nadawcy musi należeć do domeny zweryfikowanej w Resend. Te same zmienne
-należy później dodać w ustawieniach projektu na Vercelu.
+Po zakończeniu builda należy wgrać przez FTP całą zawartość katalogu `out`
+do katalogu przypisanego do domeny `ilza.net` na hostingu home.pl.
 
-Bez klucza API formularz działa w trybie lokalnym: przygotowuje wiadomość i
-otwiera domyślny program pocztowy użytkownika.
+Do uruchomienia strony i formularza na serwerze nie jest potrzebna baza danych,
+Node.js, Vercel ani Resend.
