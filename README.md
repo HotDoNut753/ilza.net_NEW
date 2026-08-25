@@ -36,8 +36,3 @@ npm ci
 npm run build
 ```
 
-Po zakończeniu builda należy wgrać przez FTP całą zawartość katalogu `out`
-do katalogu przypisanego do domeny `ilza.net` na hostingu home.pl.
-
-Do uruchomienia strony i formularza na serwerze nie jest potrzebna baza danych,
-Node.js, Vercel ani Resend.
